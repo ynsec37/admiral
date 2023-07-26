@@ -109,24 +109,15 @@ derive_vars_dy <- function(dataset,
   )
   warn_if_vars_exist(dataset, dy_vars)
 
-  if (n_vars > 1L) {
-    dataset %>%
-      mutate(
-        across(
-          .cols = vars2chr(unname(source_vars)),
-          .fns = list(temp = ~
-            compute_duration(start_date = !!reference_date, end_date = .))
-        )
-      ) %>%
-      rename_with(
-        .cols = ends_with("temp"),
-        .fn = ~dy_vars
-      )
-  } else {
-    dataset %>%
-      mutate(
-        !!sym(dy_vars) :=
-          compute_duration(start_date = !!reference_date, end_date = !!source_vars[[1]])
-      )
-  }
+  names(source_vars) <- dy_vars
+
+  dataset %>%
+    # coping `source_var` to `dy_vars`
+    mutate(!!!source_vars) %>%
+    # compute on the `dy_vars`
+    mutate(
+      across(
+        .cols = vars2chr(unname(dy_vars)),
+        .fns  = ~ compute_duration(start_date = !!reference_date, end_date = .)
+    ))
 }
