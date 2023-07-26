@@ -5,6 +5,9 @@
 ## Updates of Existing Functions
 - The functions `derive_param_bmi()` and `derive_param_bsa()` are updated to have the option of producing more values at visits when only weight is collected (#1228).
 
+- The function `derive_vars_dy()` is updated to avoid potential error when the input `dataset` with columns ending with `temp`. (#2012)
+
+
 ## Breaking Changes
 - The following functions, which were deprecated in previous `{admiral}` versions, have been removed: (#1950)
 
