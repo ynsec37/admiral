@@ -25,6 +25,8 @@ Permitted Values: list of variables}
 
 Within each by group the observations are ordered by the specified order.
 
+For handling of \code{NA}s in sorting variables see \href{../articles/generic.html#sort_order}{Sort Order}.
+
 Permitted Values: list of variables or functions of variables}
 
 \item{new_var}{Name of variable to create
@@ -100,6 +102,7 @@ General Derivation Functions for all ADaMs that returns variable appended to dat
 \code{\link{derive_var_merged_exist_flag}()},
 \code{\link{derive_var_merged_summary}()},
 \code{\link{derive_var_relative_flag}()},
+\code{\link{derive_vars_computed}()},
 \code{\link{derive_vars_joined}()},
 \code{\link{derive_vars_merged_lookup}()},
 \code{\link{derive_vars_merged}()},

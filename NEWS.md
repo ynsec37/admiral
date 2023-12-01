@@ -2,6 +2,8 @@
 
 ## New Features
 
+- Implement `derive_vars_extreme_event()`, which works as `derive_extreme_event()` but adds variables instead of a parameter. (#2138)
+
 - The new function `derive_var_merged_ef_msrc()` is provided to add a flag
 indicating if one of the conditions in one of multiple source datasets is
 fulfilled. (#1728)
@@ -12,6 +14,10 @@ comparing 2 numeric values. This is implemented in `admiral ` functions
 `derive_var_atoxgr_dir()` and `derive_var_anrind()`. (#2134)
 
     For more information, please see blog: [How admiral handles floating points](https://pharmaverse.github.io/blog/posts/2023-10-30_floating_point/floating_point.html)
+
+- The new function `derive_vars_computed()` is provided which has the same 
+functionality as `derive_param_computed()` but instead of adding the computed 
+values as a new parameter, adds it as a new variable. (#2178)
 
 ## Updates of Existing Functions
 
@@ -29,6 +35,10 @@ were enhanced such that more than one summary variable can be derived, e.g.,
 `AVAL` as the sum and `ADT` as the maximum of the contributing records. (#1792)
 
 - `derive_summary_records()` was enhanced with the following optional arguments: `dataset_add`, `dataset_ref`, `missing_values`. These arguments respectively, generate summary variables from additional datasets, retain/add specific records from a reference dataset, and impute user-defined missing values. `derive_param_exposure()` was enhanced with `dataset_add` as well. (#2142)
+
+- The `missing_values` argument was added to `derive_var_merged_summary()`. It
+allows to define values for by groups, e.g., subjects which are not in the
+additional dataset. (#2230)
 
 - The argument `dataset` is now optional for `derive_summary_records()` and `derive_param_exposure()`. (#2142)
 
@@ -111,6 +121,14 @@ to
 order = exprs(my_order_var),
 ```
 
+- `create_query_data()` and `derive_vars_query()` updated to rename variables in 
+    query data set as follows: (#2186)
+    
+    - `TERMNAME` to `TERMCHAR`
+    - `TERMID` to `TERMNUM`
+  
+    Users need to adjust their `get_terms()` function accordingly.
+    
 - The following functions, which were deprecated in previous `{admiral}` versions, have been removed: (#2098)
   - `derive_param_extreme_event()`
   - `derive_vars_last_dose()`
@@ -132,16 +150,14 @@ order = exprs(my_order_var),
   - `derive_var_ontrtfl(span_period)` 
   
 - The `derive_param_extreme_record()` function has been superseded in favor of `derive_extreme_event()`. (#2141)
-
-- `create_query_data()` and `derive_vars_query()` updated to rename variables in 
-    query data set as follows: (#2186)
-
-    - `TERMNAME` to `TERMCHAR`
-    - `TERMID` to `TERMNUM`
-  
-    Users need to adjust their `get_terms()` function accordingly.
+- The functions `derive_var_dthcaus()`, `derive_var_extreme_dt()`, and `derive_var_extreme_dtm()` are superseded in favor of `derive_vars_extreme_event()`. (#2138)
   
 ## Documentation
+
+- The "Generic Functions" vignette (now "Generic Derivations") was rewritten.
+Now it provides a more complete overview of the generic derivations, describe
+the common concepts, and makes it easier to find the appropriate function.
+(#2230)
 
 - A way to standardize roxygen labels and descriptions for function arguments was implemented and tested (#2034)
 
@@ -155,12 +171,24 @@ Reference tab. (#2174)
 - The meaning of `date_imputation = "mid"` was clarified in the documentation of
 the imputation functions, e.g., `derive_vars_dtm()`. (#2222)
 
+- Added an example derivation of `DTHCGR1` to the ADSL vignette. (#2218)
+
 - Moved Development Process from `admiraldev` to Contribution Model in the 
 `admiral` website, updated GitHub strategy. (#2196)
+
+- Added new drop downs in Get Started navigation bar- Getting Started, Admiral Discovery, Cheatsheet. Community removed from top. (#2217)
+
+- All "Example Script(s)" sections in the User Guide vignettes were updated to point the user towards using `use_ad_template("ADaM")` rather 
+  than linking to the template in the code repository. (#2239)
+
+- Handling of `NA` values was added to the documentation of the `order` argument
+for all functions. (#2230, #2257)
 
 ## Various
 
 - Website now has button/links to Slack channel and GitHub Issues (#2127)
+
+- Added example derivations of `DTHCAUS` and `DTHCGR1` to the ADSL template. (#2218)
 
 - Cheat Sheet now added to website front page (#2130)
 
